@@ -29,26 +29,28 @@ class MainActivity : AppCompatActivity() {
         binding.delete.setOnClickListener {
             if (bTree.remove(
                 Integer.parseInt(binding.input.text.toString())
-            )) {
+            ) != null) {
                 binding.result.text = "Элемент ${binding.input.text} был удалён."
-                binding.output.text = bTree.print()
-//                setupGraphView()
+                binding.input.setText("")
+//                binding.output.text = bTree.print()
+                setupGraphView()
             }
         }
 
         binding.insert.setOnClickListener {
-            bTree.insert(
+            bTree.add(
                 Integer.parseInt(binding.input.text.toString())
             )
             binding.result.text = "Элемент ${binding.input.text} был помещён."
-            binding.output.text = bTree.print()
-//            setupGraphView()
+            binding.input.setText("")
+//            binding.output.text = bTree.print()
+            setupGraphView()
         }
 
         binding.search.setOnClickListener {
-            if (bTree.search(
+            if (bTree.contains(
                 Integer.parseInt(binding.input.text.toString())
-            ) != null)
+            ))
                 binding.result.text = "Элемент ${binding.input.text} был найден."
             else
                 binding.result.text = "Элемент ${binding.input.text} не был найден."
@@ -57,34 +59,39 @@ class MainActivity : AppCompatActivity() {
         binding.result.text = "Программа готова к работе."
     }
 
-//    private fun setupGraphView() {
-//        val recycler = binding.recycler
-//
-//        val configuration = BuchheimWalkerConfiguration.Builder()
-//            .setSiblingSeparation(100)
-//            .setLevelSeparation(100)
-//            .setSubtreeSeparation(100)
-//            .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
-//            .build()
-//        recycler.layoutManager = BuchheimWalkerLayoutManager(this, configuration)
-//
-//        recycler.addItemDecoration(TreeEdgeDecoration())
-//        adapter = object : AbstractGraphAdapter<NodeViewHolder>() {
-//
-//            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
-//                val view = LayoutInflater.from(parent.context)
-//                    .inflate(R.layout.layout_node, parent, false)
-//                return NodeViewHolder(view)
-//            }
-//
-//            override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
-//                holder.textView.text = getNodeData(position).toString()
-//            }
-//        }.apply {
-//            submitGraph(bTree.buildGraph())
-//            recycler.adapter = this
-//        }
-//    }
+    private fun setupGraphView() {
+        val recycler = binding.recycler
+
+        val configuration = BuchheimWalkerConfiguration.Builder()
+            .setSiblingSeparation(100)
+            .setLevelSeparation(100)
+            .setSubtreeSeparation(100)
+            .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
+            .build()
+        recycler.layoutManager = BuchheimWalkerLayoutManager(this, configuration)
+
+        recycler.addItemDecoration(TreeEdgeDecoration())
+
+        adapter = object : AbstractGraphAdapter<NodeViewHolder>() {
+
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.layout_node, parent, false)
+                return NodeViewHolder(view)
+            }
+
+            override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
+                holder.textView.text = getNodeData(position).toString()
+            }
+        }.apply {
+            submitGraph(bTree.buildGraph())
+            recycler.adapter = this
+        }
+        recycler.addRecyclerListener {
+            binding.zoom.zoomTo(-2f, false)
+            binding.zoom.realZoomTo(-2f, false)
+        }
+    }
 }
 
 class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

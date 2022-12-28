@@ -22,24 +22,33 @@
         android:text="Реализация поиска, добавления и удаления элементов Б-дерева"
         app:layout_constraintTop_toBottomOf="@id/title1" />
 
-    <!--<androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.otaliastudios.zoom.ZoomLayout
+        android:id="@+id/zoom"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/input"
-        app:layout_constraintTop_toBottomOf="@id/title2"/>-->
-
-    <TextView
-        android:id="@+id/output"
-        android:layout_width="match_parent"
+        app:transformation="centerInside"
+        app:overPinchable="true"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:fontFamily="monospace"
-        app:layout_constraintTop_toBottomOf="@id/search" />
+        app:layout_constraintTop_toBottomOf="@id/search">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.otaliastudios.zoom.ZoomLayout>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/output"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        android:fontFamily="monospace"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/search" />-->
 
     <EditText
         android:id="@+id/input"
         android:layout_width="match_parent"
+        android:inputType="number"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/title2" />
 
@@ -47,7 +56,7 @@
         android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/input"/>
+        app:layout_constraintTop_toBottomOf="@id/input" />
 
     <Button
         android:id="@+id/search"
